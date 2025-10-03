@@ -1,11 +1,13 @@
 import React, {useState} from "react";
-import {CreateTask, Task, TaskComponent} from "../Domain/Task";
+import {CreationForms} from "./components/CreationForms";
+import {ShowTodos} from "./components/ShowTodos";
 
 function App() {
 
-    const [task, setTask] = useState<Task>(CreateTask("test", "test", new Date()));
-    return (        <>
-            <TaskComponent task={task}/>
+    return (
+        <>
+            <CreationForms/>
+            <ShowTodos/>
         </>
     )
 }
