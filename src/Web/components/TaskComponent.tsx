@@ -3,6 +3,7 @@ import {StateType, StateConfig} from "../../Domain/StateType";
 import React, {useState} from "react";
 import {editDeadlineDate, editDescription, editTitle, editStatus} from "../../App/EditTask";
 import {getTask} from "../../Domain/Tasks";
+import {isTitleValid, isDescriptionValid} from "../../Domain/Task";
 
 export function TaskComponent({task, onDelete, onUpdate}: {
     task: Task,
@@ -31,13 +32,38 @@ export function TaskComponent({task, onDelete, onUpdate}: {
     function handleSave(title: string, field: 'title' | 'description' | 'deadline') {
         // À compléter par la logique métier
         const editedTask: Task | undefined = getTask(title)
-        if (!editedTask) return;
+        if (!editedTask) {
+            alert('Erreur de sauvegarde : impossible de trouver la tâche à modifier');
+            return;
+        }
+        
+        let result: Task | undefined;
+        let errorMessage = '';
+
         if (field === 'title') {
-            editTitle(editedTask, editValue);
+            if (!isTitleValid(editValue)) {
+                errorMessage = `Le titre doit contenir au moins 3 caractères (actuellement: ${editValue.trim().length})`;
+            } else {
+                result = editTitle(editedTask, editValue);
+            }
         } else if (field === 'description') {
-            editDescription(editedTask, editValue);
+            if (!isDescriptionValid(editValue)) {
+                errorMessage = `La description doit contenir au moins 3 caractères (actuellement: ${editValue?.trim().length || 0})`;
+            } else {
+                result = editDescription(editedTask, editValue);
+            }
         } else if (field === 'deadline') {
-            editDeadlineDate(editedTask, editValue ? new Date(editValue) : undefined);
+            result = editDeadlineDate(editedTask, editValue ? new Date(editValue) : undefined);
+        }
+
+        if (errorMessage) {
+            alert(`Erreur de sauvegarde : ${errorMessage}`);
+            return;
+        }
+
+        if (!result) {
+            alert('Erreur de sauvegarde : une erreur inattendue s\'est produite');
+            return;
         }
 
         // Réinitialiser l'état d'édition
@@ -50,10 +76,18 @@ export function TaskComponent({task, onDelete, onUpdate}: {
 
     function handleStatusChange(newStatus: StateType) {
         const editedTask = getTask(task.title);
-        if (editedTask) {
-            editStatus(editedTask, newStatus);
-            onUpdate();
+        if (!editedTask) {
+            alert('Erreur de sauvegarde : impossible de trouver la tâche à modifier');
+            return;
         }
+        
+        const result = editStatus(editedTask, newStatus);
+        if (!result) {
+            alert('Erreur de sauvegarde : impossible de changer le statut, vérifiez que la tâche est valide');
+            return;
+        }
+        
+        onUpdate();
         setLocalState(newStatus);
         setShowStatusDropdown(false);
     }
@@ -122,6 +156,7 @@ export function TaskComponent({task, onDelete, onUpdate}: {
                             onChange={e => setEditValue(e.target.value)}
                             className="edit-input"
                             style={{width: '120px'}}
+                            min={new Date().toISOString().slice(0, 10)}
                         />
                         <button className="icon-btn" onClick={() => handleSave(task.title, 'deadline')}
                                 title="Sauvegarder">
