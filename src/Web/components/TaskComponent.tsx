@@ -1,28 +1,18 @@
 import {Task} from "../../Domain/Task";
-import {StateType} from "../../Domain/StateType";
+import {StateType, StateConfig} from "../../Domain/StateType";
 import React, {useState} from "react";
+import {editDeadlineDate, editDescription, editTitle, editStatus} from "../../App/EditTask";
+import {getTask} from "../../Domain/Tasks";
 
-export function TaskComponent({task, onDelete}: { task: Task, onDelete: (title: string) => void }) {
+export function TaskComponent({task, onDelete, onUpdate}: {
+    task: Task,
+    onDelete: (title: string) => void,
+    onUpdate: () => void
+}) {
     const [localState, setLocalState] = useState<StateType>(task.state);
     const [editField, setEditField] = useState<null | 'title' | 'description' | 'deadline'>(null);
     const [editValue, setEditValue] = useState<string>("");
     const [showStatusDropdown, setShowStatusDropdown] = useState(false);
-
-    // Configuration des icônes et classes CSS pour chaque statut
-    const getStatusConfig = (status: StateType) => {
-        switch (status) {
-            case StateType.TODO:
-                return { icon: '⏳', class: 'todo', label: 'À faire' };
-            case StateType.IN_PROGRESS:
-                return { icon: '🔄', class: 'in-progress', label: 'En cours' };
-            case StateType.DONE:
-                return { icon: '✅', class: 'done', label: 'Terminée' };
-            case StateType.ARCHIVED:
-                return { icon: '📦', class: 'archived', label: 'Archivée' };
-            default:
-                return { icon: '⏳', class: 'todo', label: 'À faire' };
-        }
-    };
 
     function handleClickDelete(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
@@ -38,17 +28,37 @@ export function TaskComponent({task, onDelete}: { task: Task, onDelete: (title: 
         }
     }
 
-    function handleSave(field: 'title' | 'description' | 'deadline') {
+    function handleSave(title: string, field: 'title' | 'description' | 'deadline') {
         // À compléter par la logique métier
+        const editedTask: Task | undefined = getTask(title)
+        if (!editedTask) return;
+        if (field === 'title') {
+            editTitle(editedTask, editValue);
+        } else if (field === 'description') {
+            editDescription(editedTask, editValue);
+        } else if (field === 'deadline') {
+            editDeadlineDate(editedTask, editValue ? new Date(editValue) : undefined);
+        }
+
+        // Réinitialiser l'état d'édition
         setEditField(null);
+        setEditValue("");
+
+        // Actualiser le tableau
+        onUpdate();
     }
 
     function handleStatusChange(newStatus: StateType) {
+        const editedTask = getTask(task.title);
+        if (editedTask) {
+            editStatus(editedTask, newStatus);
+            onUpdate();
+        }
         setLocalState(newStatus);
         setShowStatusDropdown(false);
     }
 
-    const currentStatusConfig = getStatusConfig(localState);
+    const currentStatusConfig = StateConfig[localState];
 
     return (
         <tr className="task-row" key={task.uuid}>
@@ -63,7 +73,8 @@ export function TaskComponent({task, onDelete}: { task: Task, onDelete: (title: 
                             className="edit-input"
                             style={{width: '100%'}}
                         />
-                        <button className="icon-btn" onClick={() => handleSave('title')} title="Sauvegarder">
+                        <button className="icon-btn" onClick={() => handleSave(task.title, 'title')}
+                                title="Sauvegarder">
                             <span style={{fontSize: '1em'}}>✔️</span>
                         </button>
                     </div>
@@ -86,14 +97,16 @@ export function TaskComponent({task, onDelete}: { task: Task, onDelete: (title: 
                             className="edit-input"
                             style={{resize: 'vertical', minHeight: '24px', width: '100%'}}
                         />
-                        <button className="icon-btn" onClick={() => handleSave('description')} title="Sauvegarder">
+                        <button className="icon-btn" onClick={() => handleSave(task.title, 'description')}
+                                title="Sauvegarder">
                             <span style={{fontSize: '1em'}}>✔️</span>
                         </button>
                     </div>
                 ) : (
                     <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
                         <span style={{flex: 1}}>{task.description}</span>
-                        <button className="icon-btn" onClick={() => handleEdit('description')} title="Modifier la description">
+                        <button className="icon-btn" onClick={() => handleEdit('description')}
+                                title="Modifier la description">
                             <span style={{fontSize: '1em', opacity: 0.7}}>✏️</span>
                         </button>
                     </div>
@@ -110,14 +123,20 @@ export function TaskComponent({task, onDelete}: { task: Task, onDelete: (title: 
                             className="edit-input"
                             style={{width: '120px'}}
                         />
-                        <button className="icon-btn" onClick={() => handleSave('deadline')} title="Sauvegarder">
+                        <button className="icon-btn" onClick={() => handleSave(task.title, 'deadline')}
+                                title="Sauvegarder">
                             <span style={{fontSize: '1em'}}>✔️</span>
                         </button>
                     </div>
                 ) : (
                     <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
-                        <span style={{flex: 1}}>{task.deadlineDate ? task.deadlineDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : "—"}</span>
-                        <button className="icon-btn" onClick={() => handleEdit('deadline')} title="Modifier la date limite">
+                        <span style={{flex: 1}}>{task.deadlineDate ? task.deadlineDate.toLocaleDateString('fr-FR', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                        }) : "—"}</span>
+                        <button className="icon-btn" onClick={() => handleEdit('deadline')}
+                                title="Modifier la date limite">
                             <span style={{fontSize: '1em', opacity: 0.7}}>✏️</span>
                         </button>
                     </div>
@@ -139,7 +158,7 @@ export function TaskComponent({task, onDelete}: { task: Task, onDelete: (title: 
                     {showStatusDropdown && (
                         <div className="status-options">
                             {Object.values(StateType).map(status => {
-                                const config = getStatusConfig(status);
+                                const config = StateConfig[status];
                                 return (
                                     <button
                                         key={status}

@@ -1,5 +1,5 @@
 import {getTask} from "./Tasks";
-import { StateType } from "./StateType";
+import {StateType} from "./StateType";
 
 export interface Task {
     uuid: string;

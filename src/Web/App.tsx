@@ -25,10 +25,15 @@ function App() {
         refreshTasks();
     };
 
+    // Callback métier pour la mise à jour
+    const handleUpdate = () => {
+        refreshTasks();
+    };
+
     return (
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '32px 24px' }}>
-            <CreationForms onCreate={handleCreate} />
-            <ShowTodos tasks={tasks} onDelete={handleDelete} />
+        <div style={{maxWidth: '1200px', margin: '0 auto', padding: '32px 24px'}}>
+            <CreationForms onCreate={handleCreate}/>
+            <ShowTodos tasks={tasks} onDelete={handleDelete} onUpdate={handleUpdate}/>
         </div>
     )
 }
