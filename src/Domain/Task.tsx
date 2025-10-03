@@ -1,9 +1,10 @@
 import {getTask} from "./Tasks";
+import { StateType } from "./StateType";
 
 export interface Task {
     uuid: string;
     title: string;
-    isDone: boolean;
+    state: StateType;
     description?: string;
     deadlineDate?: Date;
     createdAt: Date;
@@ -25,7 +26,7 @@ export function DOMcreateTask(title: string, description?: string, deadlineDate?
         uuid: crypto.randomUUID(),
         title,
         description,
-        isDone: false,
+        state: StateType.TODO,
         createdAt: new Date(),
         updatedAt: new Date(),
         deadlineDate

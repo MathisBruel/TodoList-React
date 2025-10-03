@@ -23,6 +23,11 @@ export class LocalStorageRepo implements ITaskRepo {
                 if (!item) continue;
                 const parsed = JSON.parse(item);
                 if (parsed && parsed.uuid) {
+                    // Correction du type pour state et des dates
+                    parsed.state = parsed.state as import('../Domain/StateType').StateType;
+                    if (parsed.deadlineDate) parsed.deadlineDate = new Date(parsed.deadlineDate);
+                    parsed.createdAt = new Date(parsed.createdAt);
+                    parsed.updatedAt = new Date(parsed.updatedAt);
                     tasks.push(parsed as Task);
                 }
             } catch (e) {

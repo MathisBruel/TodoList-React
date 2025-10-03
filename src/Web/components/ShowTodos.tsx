@@ -1,12 +1,11 @@
-import tasks, {getTasks} from "../../Domain/Tasks";
+import React from "react";
 import {TaskComponent} from "./TaskComponent";
+import {Task} from "../../Domain/Task";
 
-export function ShowTodos() {
-    console.log(tasks)
+export function ShowTodos({tasks, onDelete}: {tasks: Task[], onDelete: (title: string) => void}) {
     return (
-        <div className="show-todos">
-            <h2>Liste des Todos</h2>
-
+        <div className="table-container">
+            <h2 style={{marginBottom: '18px'}}>Liste des Todos</h2>
             <table>
                 <thead>
                 <tr>
@@ -18,8 +17,8 @@ export function ShowTodos() {
                 </tr>
                 </thead>
                 <tbody>
-                    {getTasks().map(task => (
-                        <TaskComponent key={task.uuid} task={task}/>
+                    {tasks.map(task => (
+                        <TaskComponent key={task.uuid} task={task} onDelete={onDelete}/>
                     ))}
                 </tbody>
             </table>

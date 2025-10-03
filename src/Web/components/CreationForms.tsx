@@ -1,40 +1,26 @@
 import React from 'react';
-import {createTask} from "../../App/CreateTask";
-import {Task} from "../../Domain/Task";
 
-export function CreationForms() {
+export function CreationForms({onCreate}: {onCreate: (title: string, description?: string, deadlineDate?: Date) => void}) {
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const title = (form.elements.namedItem('title') as HTMLInputElement)?.value;
+        const descriptionRaw = (form.elements.namedItem('description') as HTMLTextAreaElement)?.value;
+        const descriptionToSend = descriptionRaw === "" ? undefined : descriptionRaw;
+        const deadlineRaw = (form.elements.namedItem('deadline') as HTMLInputElement)?.valueAsDate;
+        const deadlineToSend = deadlineRaw === null ? undefined : deadlineRaw;
+        onCreate(title, descriptionToSend, deadlineToSend);
+    }
+
     return (
         <div className="creation-forms">
-            <h2>Créez une nouvelle Todo</h2>
-
-            <form className="create-task-form" onSubmit={handleSubmit}>
-                <label htmlFor="title">Titre</label>
-                <input type="text" id="title" name="title" required />
-                <label htmlFor="description">Description</label>
-                <textarea id="description" name="description" />
-                <label htmlFor="deadline">Date limite</label>
-                <input type="date" id="deadline" name="deadline" />
+            <h2 style={{marginBottom: '18px'}}>Créez une nouvelle Todo</h2>
+            <form className="create-form" onSubmit={handleSubmit}>
+                <input type="text" id="title" name="title" required placeholder="Titre" />
+                <textarea id="description" name="description" placeholder="Description" />
+                <input type="date" id="deadline" name="deadline" placeholder="Date limite" />
                 <button type="submit">Créer la tâche</button>
             </form>
         </div>
     )
-}
-
-function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const title = (form.elements.namedItem('title') as HTMLInputElement)?.value;
-    const description = (form.elements.namedItem('description') as HTMLTextAreaElement)?.value;
-    const deadline = (form.elements.namedItem('deadline') as HTMLInputElement)?.valueAsDate;
-    let createdTask : Task | undefined;
-    if (deadline)
-        createdTask = createTask(title, description, deadline);
-    else createdTask = createTask(title, description);
-
-    if(!createdTask){
-        alert("Erreur");
-        return;
-    }
-    console.log(createdTask);
-
 }

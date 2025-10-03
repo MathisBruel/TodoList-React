@@ -1,4 +1,4 @@
-import {getTask, rmTask, tasks} from '../Domain/Tasks';
+import {getTask, DOMremoveTask, tasks} from '../Domain/Tasks';
 
 /**
  * Supprime une tâche via la couche Domaine
@@ -6,6 +6,7 @@ import {getTask, rmTask, tasks} from '../Domain/Tasks';
  */
 export function removeTask(title: string) {
     const task = getTask(title);
+    console.log(task);
     if (!task) return;
-    rmTask(task)
+    DOMremoveTask(task)
 }

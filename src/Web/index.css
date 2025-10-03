@@ -1,46 +1,267 @@
-/* Design léger pour la todolist */
+body {
+  font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+  background: #f6f8fa;
+  color: #222;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+h1, h2 {
+  font-weight: 600;
+  margin-bottom: 0.5em;
+  color: #1a1a1a;
+}
+
+/* Conteneur du formulaire de création */
+.creation-forms {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.table-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 24px;
+  margin-top: 32px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  background: transparent;
 }
-td {
+th, td {
   padding: 12px 8px;
-  border-bottom: 1px solid #e0e0e0;
-  text-align: left;
-  font-size: 1rem;
+  border-bottom: 1px solid #ececec;
+  font-size: 0.98rem;
+}
+th {
+  font-weight: 500;
+  color: #555;
+  background: #f6f8fa;
 }
 .task-row {
-  background: #fafafa;
-  transition: background 0.2s;
+  background: #fff;
+  transition: box-shadow 0.2s, background 0.2s;
 }
 .task-row:hover {
-  background: #f0f8ff;
+  background: #f0f4fa;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
 }
-.button {
-  background: #1976d2;
-  color: white;
+.icon-btn {
+  background: none;
   border: none;
+  padding: 6px;
   border-radius: 6px;
-  padding: 6px 14px;
-  margin: 0 2px;
   cursor: pointer;
-  font-size: 0.95rem;
-  transition: background 0.2s;
+  transition: background 0.18s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
 }
-.button:hover {
-  background: #1565c0;
+.icon-btn:hover {
+  background: #e3eafc;
 }
-.button.done {
-  background: #43a047;
+.icon-btn.delete {
+  color: #e53935;
 }
-.button.done:hover {
-  background: #388e3c;
+.icon-btn.delete:hover {
+  background: #ffeaea;
 }
-.button.delete {
-  background: #e53935;
+.edit-input {
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.97rem;
+  background: #fff;
+  transition: border 0.18s, box-shadow 0.18s;
+  font-family: inherit;
 }
-.button.delete:hover {
-  background: #b71c1c;
+.edit-input:focus {
+  border-color: #1976d2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: grayscale(1);
+  cursor: pointer;
+}
+select.edit-input {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #d0d7de;
+  padding: 8px 12px;
+  font-size: 0.97rem;
+  cursor: pointer;
+}
+/* Formulaire de création moderne */
+.create-form {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.create-form input,
+.create-form textarea {
+  flex: 1;
+  min-width: 140px;
+  font-size: 0.97rem;
+  border-radius: 8px;
+  border: 1px solid #d0d7de;
+  padding: 10px 14px;
+  background: #fff;
+  font-family: inherit;
+  transition: border 0.18s, box-shadow 0.18s;
+}
+.create-form input:focus,
+.create-form textarea:focus {
+  border-color: #1976d2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+.create-form textarea {
+  resize: vertical;
+  min-height: 42px;
+  max-height: 100px;
+}
+.create-form input[type="date"] {
+  flex: 0 0 160px;
+}
+.create-form button {
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.97rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+.create-form button:hover {
+  background: linear-gradient(135deg, #1565c0, #0d47a1);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.25);
+  transform: translateY(-1px);
+}
+.create-form button:active {
+  transform: translateY(0);
 }
 
+/* Badges de statut visuels */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.status-badge.todo {
+  background: #f0f4f8;
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+}
+
+.status-badge.todo:hover {
+  background: #e2e8f0;
+  border-color: #a0aec0;
+}
+
+.status-badge.in-progress {
+  background: #fef5e7;
+  color: #d69e2e;
+  border: 1px solid #f6e05e;
+}
+
+.status-badge.in-progress:hover {
+  background: #fed7aa;
+  border-color: #ed8936;
+}
+
+.status-badge.done {
+  background: #f0fff4;
+  color: #38a169;
+  border: 1px solid #9ae6b4;
+}
+
+.status-badge.done:hover {
+  background: #c6f6d5;
+  border-color: #68d391;
+}
+
+.status-badge.archived {
+  background: #f7fafc;
+  color: #718096;
+  border: 1px solid #cbd5e0;
+}
+
+.status-badge.archived:hover {
+  background: #edf2f7;
+  border-color: #a0aec0;
+}
+
+.status-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.status-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 100;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.status-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.status-option:hover {
+  background: #f7fafc;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .create-form {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .create-form input,
+  .create-form textarea,
+  .create-form button {
+    width: 100%;
+  }
+}
