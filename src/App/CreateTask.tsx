@@ -1,8 +1,9 @@
 import {tasks} from '../Domain/Tasks';
-import {CreateTask} from '../Domain/Task';
+import {CreateTask, isValid, Task} from '../Domain/Task';
 
-export function createTask(title: string, description?: string, deadlineDate?: Date) {
-    const task = CreateTask(title, description, deadlineDate);
+export function createTask(title: string, description?: string, deadlineDate?: Date) : Task | undefined{
+    if(!isValid(title, description, deadlineDate)) return undefined;
+    const task : Task = CreateTask(title, description, deadlineDate);
     tasks.push(task);
     return task;
 }
