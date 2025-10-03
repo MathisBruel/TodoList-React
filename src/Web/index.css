@@ -1,0 +1,46 @@
+/* Design léger pour la todolist */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+td {
+  padding: 12px 8px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 1rem;
+}
+.task-row {
+  background: #fafafa;
+  transition: background 0.2s;
+}
+.task-row:hover {
+  background: #f0f8ff;
+}
+.button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  margin: 0 2px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+.button:hover {
+  background: #1565c0;
+}
+.button.done {
+  background: #43a047;
+}
+.button.done:hover {
+  background: #388e3c;
+}
+.button.delete {
+  background: #e53935;
+}
+.button.delete:hover {
+  background: #b71c1c;
+}
+

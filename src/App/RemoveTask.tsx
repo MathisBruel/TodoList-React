@@ -1,4 +1,4 @@
-import {getTask, tasks} from '../Domain/Tasks';
+import {getTask, rmTask, tasks} from '../Domain/Tasks';
 
 /**
  * Supprime une tâche via la couche Domaine
@@ -6,5 +6,6 @@ import {getTask, tasks} from '../Domain/Tasks';
  */
 export function removeTask(title: string) {
     const task = getTask(title);
-    tasks.splice(tasks.indexOf(task!), 1);
+    if (!task) return;
+    rmTask(task)
 }

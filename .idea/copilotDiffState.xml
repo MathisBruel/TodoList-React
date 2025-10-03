@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/src/Web/components/ShowTodos.tsx">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/Web/components/ShowTodos.tsx" />
+              <option name="originalContent" value="import tasks from &quot;../../Domain/Tasks&quot;;&#10;import {TaskComponent} from &quot;./TaskComponent&quot;;&#10;&#10;export function ShowTodos() {&#10;    return (&#10;        &lt;div className=&quot;show-todos&quot;&gt;&#10;            &lt;h2&gt;Liste des Todos&lt;/h2&gt;&#10;&#10;            &lt;table&gt;&#10;                &lt;thead&gt;&#10;                &lt;tr&gt;&#10;                    &lt;th&gt;Titre&lt;/th&gt;&#10;                    &lt;th&gt;Description&lt;/th&gt;&#10;                    &lt;th&gt;Date limite&lt;/th&gt;&#10;                    &lt;th&gt;Status&lt;/th&gt;&#10;                    &lt;th&gt;Actions&lt;/th&gt;&#10;                &lt;/tr&gt;&#10;                &lt;/thead&gt;&#10;                &lt;tbody&gt;&#10;                    {tasks.map(task =&gt; (&#10;                        &lt;TaskComponent task={task}/&gt;&#10;                    ))}&#10;                &lt;/tbody&gt;&#10;            &lt;/table&gt;&#10;        &lt;/div&gt;&#10;    )&#10;}" />
+              <option name="updatedContent" value="import tasks from &quot;../../Domain/Tasks&quot;;&#10;import {TaskComponent} from &quot;./TaskComponent&quot;;&#10;&#10;export function ShowTodos() {&#10;    return (&#10;        &lt;div className=&quot;show-todos&quot;&gt;&#10;            &lt;h2&gt;Liste des Todos&lt;/h2&gt;&#10;&#10;            &lt;table&gt;&#10;                &lt;thead&gt;&#10;                &lt;tr&gt;&#10;                    &lt;th&gt;Titre&lt;/th&gt;&#10;                    &lt;th&gt;Description&lt;/th&gt;&#10;                    &lt;th&gt;Date limite&lt;/th&gt;&#10;                    &lt;th&gt;Status&lt;/th&gt;&#10;                    &lt;th&gt;Actions&lt;/th&gt;&#10;                &lt;/tr&gt;&#10;                &lt;/thead&gt;&#10;                &lt;tbody&gt;&#10;                    {tasks.map(task =&gt; (&#10;                        &lt;TaskComponent key={task.id} task={task}/&gt;&#10;                    ))}&#10;                &lt;/tbody&gt;&#10;            &lt;/table&gt;&#10;        &lt;/div&gt;&#10;    )&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/Web/components/TaskComponent.tsx">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/src/Web/components/TaskComponent.tsx" />
+              <option name="originalContent" value="import {Task} from &quot;../../Domain/Task&quot;;&#10;&#10;export function TaskComponent({task}: { task: Task }) {&#10;    return (&#10;        &lt;tr className=&quot;task-row&quot;&gt;&#10;            &lt;td&gt;{task.title}&lt;/td&gt;&#10;            &lt;td&gt;{task.description}&lt;/td&gt;&#10;            &lt;td&gt;&#10;                &lt;button&#10;                    className={`button${task.isDone ? ' done' : ''}`}&#10;                    onClick={() =&gt; task.isDone = !task.isDone}&#10;                &gt;&#10;                    {task.isDone ? &quot;Terminé&quot; : &quot;En attente&quot;}&#10;                &lt;/button&gt;&#10;            &lt;/td&gt;&#10;            &lt;td&gt;{task.createdAt.toLocaleString()}&lt;/td&gt;&#10;            {task.deadlineDate &amp;&amp; (&#10;                &lt;td&gt;{task.deadlineDate.toLocaleString()}&lt;/td&gt;&#10;            )}&#10;            &lt;td&gt;&#10;                &lt;button className=&quot;button&quot; onClick={() =&gt; alert(&quot;WIP ...&quot;)}&gt;Modifier&lt;/button&gt;&#10;                &lt;button className=&quot;button delete&quot; onClick={() =&gt; alert(&quot;WIP ...&quot;)}&gt;Supprimer&lt;/button&gt;&#10;            &lt;/td&gt;&#10;        &lt;/tr&gt;&#10;    );&#10;}" />
+              <option name="updatedContent" value="import {Task} from &quot;../../Domain/Task&quot;;&#10;&#10;export function TaskComponent({task}: { task: Task }) {&#10;    return (&#10;        &lt;tr className=&quot;task-row&quot;&gt;&#10;            &lt;td&gt;{task.title}&lt;/td&gt;&#10;            &lt;td&gt;{task.description}&lt;/td&gt;&#10;            &lt;td&gt;{task.deadlineDate ? task.deadlineDate.toLocaleString() : &quot;—&quot;}&lt;/td&gt;&#10;            &lt;td&gt;&#10;                &lt;button&#10;                    className={`button${task.isDone ? ' done' : ''}`}&#10;                    onClick={() =&gt; task.isDone = !task.isDone}&#10;                &gt;&#10;                    {task.isDone ? &quot;Terminé&quot; : &quot;En attente&quot;}&#10;                &lt;/button&gt;&#10;            &lt;/td&gt;&#10;            &lt;td&gt;&#10;                &lt;button className=&quot;button&quot; onClick={() =&gt; alert(&quot;WIP ...&quot;)}&gt;Modifier&lt;/button&gt;&#10;                &lt;button className=&quot;button delete&quot; onClick={() =&gt; alert(&quot;WIP ...&quot;)}&gt;Supprimer&lt;/button&gt;&#10;            &lt;/td&gt;&#10;        &lt;/tr&gt;&#10;    );&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

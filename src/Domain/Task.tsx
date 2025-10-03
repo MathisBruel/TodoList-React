@@ -20,6 +20,7 @@ export function isValid(title: string, description?: string, deadlineDate?: Date
 }
 
 export function DOMcreateTask(title: string, description?: string, deadlineDate?: Date): Task {
+
     return {
         uuid: crypto.randomUUID(),
         title,

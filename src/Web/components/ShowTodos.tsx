@@ -1,7 +1,8 @@
-import tasks from "../../Domain/Tasks";
+import tasks, {getTasks} from "../../Domain/Tasks";
 import {TaskComponent} from "./TaskComponent";
 
 export function ShowTodos() {
+    console.log(tasks)
     return (
         <div className="show-todos">
             <h2>Liste des Todos</h2>
@@ -17,8 +18,8 @@ export function ShowTodos() {
                 </tr>
                 </thead>
                 <tbody>
-                    {tasks.map(task => (
-                        <TaskComponent task={task}/>
+                    {getTasks().map(task => (
+                        <TaskComponent key={task.uuid} task={task}/>
                     ))}
                 </tbody>
             </table>

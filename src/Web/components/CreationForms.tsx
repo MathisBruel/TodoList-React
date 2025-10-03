@@ -1,5 +1,6 @@
 import React from 'react';
 import {createTask} from "../../App/CreateTask";
+import {Task} from "../../Domain/Task";
 
 export function CreationForms() {
     return (
@@ -25,7 +26,15 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     const title = (form.elements.namedItem('title') as HTMLInputElement)?.value;
     const description = (form.elements.namedItem('description') as HTMLTextAreaElement)?.value;
     const deadline = (form.elements.namedItem('deadline') as HTMLInputElement)?.valueAsDate;
+    let createdTask : Task | undefined;
     if (deadline)
-        createTask(title, description, deadline);
-    else createTask(title, description);
+        createdTask = createTask(title, description, deadline);
+    else createdTask = createTask(title, description);
+
+    if(!createdTask){
+        alert("Erreur");
+        return;
+    }
+    console.log(createdTask);
+
 }
