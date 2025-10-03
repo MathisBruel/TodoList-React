@@ -30,13 +30,12 @@ export function TaskComponent({task, onDelete, onUpdate}: {
     }
 
     function handleSave(title: string, field: 'title' | 'description' | 'deadline') {
-        // À compléter par la logique métier
         const editedTask: Task | undefined = getTask(title)
         if (!editedTask) {
             alert('Erreur de sauvegarde : impossible de trouver la tâche à modifier');
             return;
         }
-        
+
         let result: Task | undefined;
         let errorMessage = '';
 
@@ -66,11 +65,8 @@ export function TaskComponent({task, onDelete, onUpdate}: {
             return;
         }
 
-        // Réinitialiser l'état d'édition
         setEditField(null);
         setEditValue("");
-
-        // Actualiser le tableau
         onUpdate();
     }
 
@@ -80,13 +76,13 @@ export function TaskComponent({task, onDelete, onUpdate}: {
             alert('Erreur de sauvegarde : impossible de trouver la tâche à modifier');
             return;
         }
-        
+
         const result = editStatus(editedTask, newStatus);
         if (!result) {
             alert('Erreur de sauvegarde : impossible de changer le statut, vérifiez que la tâche est valide');
             return;
         }
-        
+
         onUpdate();
         setLocalState(newStatus);
         setShowStatusDropdown(false);
@@ -96,7 +92,6 @@ export function TaskComponent({task, onDelete, onUpdate}: {
 
     return (
         <tr className="task-row" key={task.uuid}>
-            {/* Titre */}
             <td>
                 {editField === 'title' ? (
                     <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
@@ -121,7 +116,6 @@ export function TaskComponent({task, onDelete, onUpdate}: {
                     </div>
                 )}
             </td>
-            {/* Description */}
             <td>
                 {editField === 'description' ? (
                     <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
@@ -146,7 +140,6 @@ export function TaskComponent({task, onDelete, onUpdate}: {
                     </div>
                 )}
             </td>
-            {/* Deadline */}
             <td>
                 {editField === 'deadline' ? (
                     <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
@@ -177,7 +170,6 @@ export function TaskComponent({task, onDelete, onUpdate}: {
                     </div>
                 )}
             </td>
-            {/* Statut visuel avec badge coloré */}
             <td>
                 <div className="status-dropdown">
                     <button
@@ -209,7 +201,6 @@ export function TaskComponent({task, onDelete, onUpdate}: {
                     )}
                 </div>
             </td>
-            {/* Dernière mise à jour */}
             <td style={{fontSize: '0.9em', color: '#666'}}>
                 <div style={{display: 'flex', flexDirection: 'column', gap: '2px'}}>
                     <span>{task.updatedAt.toLocaleDateString('fr-FR', {
@@ -225,7 +216,6 @@ export function TaskComponent({task, onDelete, onUpdate}: {
                     </span>
                 </div>
             </td>
-            {/* Actions minimalistes */}
             <td style={{textAlign: 'center', width: '32px'}}>
                 <button className="icon-btn delete" onClick={handleClickDelete} title="Supprimer">
                     <span style={{fontSize: '1em', opacity: 0.8}}>🗑️</span>
