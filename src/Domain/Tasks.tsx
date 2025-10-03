@@ -27,7 +27,7 @@ export function getTaskByUUID(uuid: string): Task | undefined {
 
 export function getTasks(): Array<Task> {
     refreshTasks();
-    return tasks;
+    return tasks.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
 }
 
 export function DOMaddTask(task: Task) {

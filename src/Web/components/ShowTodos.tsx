@@ -17,6 +17,7 @@ export function ShowTodos({tasks, onDelete, onUpdate}: {
                     <th>Description</th>
                     <th>Date limite</th>
                     <th>Status</th>
+                    <th>Dernière mise à jour</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
